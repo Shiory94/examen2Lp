@@ -45,10 +45,11 @@ public class Register extends AppCompatActivity {
     private Switch switchMarried;
     private TextView textViewMarried;
 
-    private TextInputLayout tilName,tilSex;
+    private TextInputLayout tilName, tilSex;
 
     private RatingBar ratingBarScore;
     private String score;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,55 +58,56 @@ public class Register extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         loadFiles();
-        editLoad();
+//        editLoad();
         savePerson();
 
 
     }
-    public void loadFiles(){
+
+    public void loadFiles() {
         txtName = (EditText) findViewById(R.id.txtNombre);
         txtLastNameF = (EditText) findViewById(R.id.txtLastNameF);
         txtLastNameM = (EditText) findViewById(R.id.txtLastNameM);
-        tilName=(TextInputLayout) findViewById(R.id.tilName);
+        tilName = (TextInputLayout) findViewById(R.id.tilName);
 
 
     }
 
-    public void editLoad(){
-        // para obtener valores enviados de la otra actividad
-        Bundle parameters = getIntent().getExtras();
-        personId = (int) parameters.getInt("personId");
-        if(personId!=0){
+//    public void editLoad(){
+//        // para obtener valores enviados de la otra actividad
+//        Bundle parameters = getIntent().getExtras();
+//        personId = (int) parameters.getInt("personId");
+//        if(personId!=0){
+//
+//            Person person = getPersonById(personId);
+//            txtName.setText(person.getName());
+//            txtLastNameF.setText(person.getLastNameF());
+//            txtLastNameM.setText(person.getLastNameM());
+//
+//            ratingBarScore.setRating(Float.parseFloat(person.getScore()));
+//
+//        }
+//    }
 
-            Person person = getPersonById(personId);
-            txtName.setText(person.getName());
-            txtLastNameF.setText(person.getLastNameF());
-            txtLastNameM.setText(person.getLastNameM());
-
-            ratingBarScore.setRating(Float.parseFloat(person.getScore()));
-
-        }
-    }
-
-    public void savePerson(){
-        Button btnSave = (Button)findViewById(R.id.btnSave);
+    public void savePerson() {
+        Button btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                boolean a = isFileValid(txtName.getText().toString());
-                boolean b = isNullSex();
-
-                if (a || b) {
-                    return;
-                }
-
-                if(personId==0){
-                    newPerson();
-                }else{
-                    updatePerson();
-                }
-                goMain();
-
+    //            boolean a = isFileValid(txtName.getText().toString());
+//                boolean b = isNullSex();
+//
+//                if (a || b) {
+//                    return;
+//                }
+//
+//                if(personId==0){
+//                    newPerson();
+//                }else{
+//                    updatePerson();
+//                }
+//                goMain();
+//
             }
         });
     }
@@ -115,7 +117,7 @@ public class Register extends AppCompatActivity {
         Random rn = new Random();
         int answer = rn.nextInt(1000) + 1;
 
-        Person person =new Person();
+        Person person = new Person();
         person.setId(answer);
         person.setName(txtName.getText().toString());
         person.setLastNameF(txtLastNameF.getText().toString());
@@ -129,72 +131,73 @@ public class Register extends AppCompatActivity {
     }
 
     public void updatePerson() {
-        List<Person> listPerson2=new ArrayList<Person>();
-        for (Person person:Login.listPerson){
-            if(person.getId()==personId){
+        List<Person> listPerson2 = new ArrayList<Person>();
+        for (Person person : Login.listPerson) {
+            if (person.getId() == personId) {
                 person.setName(txtName.getText().toString());
                 person.setLastNameF(txtLastNameF.getText().toString());
                 person.setLastNameM(txtLastNameM.getText().toString());
 
-                }
+            }
             person.setScore(score);
 
             Login.listPerson.add(person);
-    }
-        listPerson2.add(person);
         }
+//        listPerson2.add(person);
+//        }
+//
+//
+//    public void goMain(){
+//        Intent i = new Intent(this,Login.class);
+//        startActivity(i);
+//    }
+//
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_register, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.action_back:
+//                Intent i = new Intent(this,Login.class);
+//                startActivity(i);
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+//
+//            public Person getPersonById(int personId) {
+//                List<Person> listPerson = Login.listPerson;
+//
+//                for (Person person : listPerson) {
+//                    if (person.getId() == personId) {
+//                        return person;
+//                    }
+//                }
+//                return null;
+//            }
 
 
-    public void goMain(){
-        Intent i = new Intent(this,Login.class);
-        startActivity(i);
+//            private boolean isFileValid(String file) {
+//                tilName.setError(null);
+//                if (validarFile(file, 30)) {
+//                    tilName.setError("Campo inválido");
+//                    return true;
+//                }
+//                return false;
+//            }
+
+//            private boolean validarFile(String file, int sizeFile) {
+////        Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
+////        return patron.matcher(nombre).matches() || nombre.length() > sizeFile;
+//                return file.length() > sizeFile;
+//
+//            }
+
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_back:
-                Intent i = new Intent(this,Login.class);
-                startActivity(i);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    public Person getPersonById(int personId){
-        List<Person> listPerson = Login.listPerson ;
-
-        for (Person person:listPerson){
-            if(person.getId()==personId){
-                return person;
-            }
-        }
-        return null;
-    }
-
-
-    private boolean isFileValid(String file) {
-        tilName.setError(null);
-        if (validarFile(file,30)) {
-            tilName.setError("Campo inválido");
-            return true;
-        }
-        return false;
-    }
-
-    private boolean validarFile(String file, int sizeFile){
-//        Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
-//        return patron.matcher(nombre).matches() || nombre.length() > sizeFile;
-        return file.length() > sizeFile;
-    }
-
-
 }
